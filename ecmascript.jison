@@ -729,12 +729,12 @@ PropertyNameAndValueList
 PropertyAssignment
     : PropertyName ":" AssignmentExpression
         {
-            $$ = {key: $1, value: $3, kind: "init"};
+            $$ = {key: $1, value: $3, kind: "init", type: 'ObjectProperty'};
         }
     | "IDENTIFIER" PropertyName "(" ")" "{" FunctionBody "}"
         {
             if ($1 === "get") {
-                $$ = {key: $2, value: (new FunctionExpressionNode(null, [], $6, false, false, createSourceLocation(null, @2, @7))), kind: "get"};
+                $$ = {key: $2, value: (new FunctionExpressionNode(null, [], $6, false, false, createSourceLocation(null, @2, @7))), kind: "get", type: 'ObjectProperty'};
             } else {
                 this.parseError("Invalid getter", {});
             }
@@ -742,7 +742,7 @@ PropertyAssignment
     | "IDENTIFIER" PropertyName "(" PropertySetParameterList ")" "{" FunctionBody "}"
         {
             if ($1 === "set") {
-                $$ = {key: $2, value: (new FunctionExpressionNode(null, $4, $7, false, false, createSourceLocation(null, @2, @8))), kind: "set"};
+                $$ = {key: $2, value: (new FunctionExpressionNode(null, $4, $7, false, false, createSourceLocation(null, @2, @8))), kind: "set", type: 'ObjectProperty'};
             } else {
                 this.parseError("Invalid setter", {});
             }
